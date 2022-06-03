@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="32dp"
+        android:background="#666"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           android:gravity="center"
+            >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:hint="@string/question_hint"
+            android:id="@+id/question_place"
+            android:background="#AAA"
+            android:paddingStart="10dp"
+            android:paddingEnd="0dp"
+            android:layout_above="@id/answer_place"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:hint="@string/answer_hint"
+            android:id="@+id/answer_place"
+            android:background="#AAA"
+            android:paddingStart="10dp"
+            android:paddingEnd="0dp"
+            />
+        </RelativeLayout>
+    <ImageButton
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/ic_baseline_stop_circle_24"
+        android:onClick="deleteButton"/>
+
+</RelativeLayout>

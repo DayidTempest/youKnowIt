@@ -3,6 +3,7 @@ package com.bluescript.youknowit;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -16,6 +17,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import com.bluescript.youknowit.Question;
+import android.view.View;
+import android.view.Window;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,11 +80,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
-        String fileName = "TEST.txt";
-        Question test = new Question("How are you?", "I am fine");
-        writeToJSON(fileName, test);
-        TextView text = findViewById(R.id.TESTOWEID);
-        text.setText(test.getQuestion());
+
+        FloatingActionButton fab = findViewById(R.id.addingActivities);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(v.getContext(), CreateAndEditSetActivity.class));
+            }
+        });
     }
+
 }
