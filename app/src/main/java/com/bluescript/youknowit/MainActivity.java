@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.util.Log;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -16,7 +15,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.bluescript.youknowit.Question;
 import android.view.View;
 import android.view.Window;
 
@@ -32,33 +30,20 @@ public class MainActivity extends AppCompatActivity {
             out.write(text);
             out.close();
         } catch(IOException e ){
-            System.out.println(e);
+            Log.e("ERROR", e.toString());
         }
-
     }
 
     //Function to read from JSON file
-    private Question readFromJSON(String fileName) {
+    private QuestionSet readFromJSON(String fileName) {
         String JSONtext = readFile(fileName);
-        try{
-            Question question = new Question(JSONtext);
-            return question;
-        } catch (JSONException e){
-            System.out.println(e);
-        }
-
-        return new Question("none", "none");
+        QuestionSet questionSet = new QuestionSet(JSONtext);
+        return questionSet;
     }
 
-    protected void writeToJSON(String fileName, Question data) {
-        try{
-            JSONObject JSONData = data.toJSON();
-            writeToFile(JSONData.toString(), fileName);
-        } catch (JSONException e){
-            System.out.println(e);
-        }
-        Question lostQuestion = new Question("none", "none");
-        writeToFile(lostQuestion.toString(), fileName);
+    protected void writeToJSON(String fileName, QuestionSet data) {
+        JSONObject JSONData = data.toJSON();
+        writeToFile(JSONData.toString(), fileName);
     }
 
     //Helper function for readFromJson
@@ -72,9 +57,10 @@ public class MainActivity extends AppCompatActivity {
             in = new BufferedReader(new FileReader(new File(context.getFilesDir(), filename)));
             while ((line = in.readLine()) != null) stringBuilder.append(line);
         } catch (IOException e ){
-            System.out.println(e);
+            Log.e("ERROR", e.toString());
         }
-        return stringBuilder.toString();
+        String output = stringBuilder.toString();
+        return output;
     }
 
     @Override
