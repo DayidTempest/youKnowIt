@@ -3,10 +3,10 @@
     <string name="question_hint">question</string>
     <string name="answer_hint">answer</string>
     <string name="delete_tile_button" tools:ignore="ExtraTranslation">delete_tile_button</string>
-    <string name="SetName">Set name</string>
     <string name="add_or_edit_set">Add or Edit set</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="tile_set_name">jedzenie</string>
     <string name="logo">logo</string>
+    <string name="set_name">set name</string>
 </resources>
