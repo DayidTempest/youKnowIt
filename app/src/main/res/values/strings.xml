@@ -13,4 +13,6 @@
     <string name="foreground_notification_title">You Know It app\'s background task</string>
     <string name="foreground_notification_text">You can\'t reject this notification</string>
     <string name="set_name">set name</string>
+    <string name="edit_tile">Edit</string>
+    <string name="settings_tile">Settings</string>
 </resources>

@@ -17,7 +17,9 @@ import android.widget.PopupMenu;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class CreateAndEditSetActivity extends AppCompatActivity {
@@ -43,6 +45,16 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
                     LinearLayout scroll = findViewById(R.id.AddRepeatsLinear);
                     int childCount = scroll.getChildCount();
 
+                    ArrayList list = new ArrayList<Question>();
+
+                    for(int i = 0; i < childCount; i++){
+                        TextInputLayout questionPlace = scroll.getChildAt(i).findViewById(R.id.question_place);
+                        String question = questionPlace.getEditText().toString();
+                        TextInputLayout answerPlace = scroll.getChildAt(i).findViewById(R.id.answer_place);
+                        String answer = answerPlace.getEditText().toString();
+                        System.out.println(question);
+                        Question q1 = new Question(question, answer);
+                    }
                 }
                 return false;
             }
