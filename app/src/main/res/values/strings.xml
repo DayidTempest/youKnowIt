@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">youKnowIt</string>
+    <string name="SetName">Set name</string>
+    <string name="add_or_edit_set">Add or Edit set</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
 </resources>

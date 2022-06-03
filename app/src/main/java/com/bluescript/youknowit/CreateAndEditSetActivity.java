@@ -2,26 +2,23 @@ package com.bluescript.youknowit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainActivity extends AppCompatActivity {
+public class CreateAndEditSetActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_create_and_edit_set);
 
-        FloatingActionButton fab = findViewById(R.id.addingActivities);
+        FloatingActionButton fab = findViewById(R.id.AddQuestionFAB);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(v.getContext(), CreateAndEditSetActivity.class));
+            public void onClick(View view) {
             }
         });
     }
-
 }
