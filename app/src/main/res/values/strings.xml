@@ -3,7 +3,6 @@
     <string name="question_hint">question</string>
     <string name="answer_hint">answer</string>
     <string name="delete_tile_button" tools:ignore="ExtraTranslation">delete_tile_button</string>
-    <string name="SetName">Set name</string>
     <string name="add_or_edit_set">Add or Edit set</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
@@ -13,4 +12,5 @@
     <string name="foreground_channel_description">Foreground channel for notifications</string>
     <string name="foreground_notification_title">You Know It app\'s background task</string>
     <string name="foreground_notification_text">You can\'t reject this notification</string>
+    <string name="set_name">set name</string>
 </resources>
