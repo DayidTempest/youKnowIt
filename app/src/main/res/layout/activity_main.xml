@@ -10,17 +10,19 @@
     >
 
     <RelativeLayout
+        android:id="@+id/main_header"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:background="#00ADB5"
     >
 
         <ImageView
             android:id="@+id/you_know_logo"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="4dp"
             android:contentDescription="@string/logo"
-            android:foregroundGravity="left"
             android:padding="10dp"
             android:src="@drawable/logov4"
 
@@ -28,10 +30,12 @@
             />
 
         <ImageView
+            android:id="@+id/more_vertical"
             android:layout_width="50dp"
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_baseline_arrow_left_24"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_baseline_more_vert_24"
             />
 
 
