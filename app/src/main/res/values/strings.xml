@@ -8,5 +8,9 @@
     <string name="delete">Delete</string>
     <string name="tile_set_name">jedzenie</string>
     <string name="logo">logo</string>
+    <string name="foreground_channel_name">Foreground Channel</string>
+    <string name="foreground_channel_description">Foreground channel for notifications</string>
+    <string name="foreground_notification_title">You Know It app\'s background task</string>
+    <string name="foreground_notification_text">You can\'t reject this notification</string>
     <string name="set_name">set name</string>
 </resources>

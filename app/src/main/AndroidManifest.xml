@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bluescript.youknowit">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.YouKnowIt"
         tools:targetApi="31">
+        <service
+            android:name=".NotificationsService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".CreateAndEditSetActivity"
             android:exported="false" />
