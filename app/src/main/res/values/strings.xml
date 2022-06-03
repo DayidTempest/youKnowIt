@@ -7,4 +7,6 @@
     <string name="add_or_edit_set">Add or Edit set</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="tile_set_name">jedzenie</string>
+    <string name="logo">logo</string>
 </resources>
