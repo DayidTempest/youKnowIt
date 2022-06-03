@@ -1,5 +1,8 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">youKnowIt</string>
+    <string name="question_hint">question</string>
+    <string name="answer_hint">answer</string>
+    <string name="delete_tile_button" tools:ignore="ExtraTranslation">delete_tile_button</string>
     <string name="SetName">Set name</string>
     <string name="add_or_edit_set">Add or Edit set</string>
     <string name="save">Save</string>
