@@ -20,6 +20,10 @@
             android:enabled="true"
             android:exported="true"></service>
 
+        <receiver
+            android:name=".ManageUserReply"
+            android:enabled="true"
+            android:exported="true" />
         <activity
             android:name=".CreateAndEditSetActivity"
             android:exported="false" />

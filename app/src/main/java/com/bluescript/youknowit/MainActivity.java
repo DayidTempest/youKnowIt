@@ -13,6 +13,7 @@ import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -32,8 +33,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static Intent serviceIntent = null;
-    NotificationsService notificationsService;
+
+    int testCount = 1;
+    int testCountDelete = 1;
 
     //Helper function for writeToJSON
     private void writeToFile(String text, String fileName){
@@ -103,42 +105,38 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(v.getContext(), CreateAndEditSetActivity.class));
             }
         });
-
-        createAndBindService();
-    }
-
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            NotificationsService.NotificationsServiceBinder binder = (NotificationsService.NotificationsServiceBinder) service;
-            notificationsService = binder.getService();
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-        }
-    };
-
-    private void createAndBindService() {
-        serviceIntent = new Intent(this, NotificationsService.class);
-        startService(serviceIntent);
-        bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
     }
 
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.foreground_channel_name);
             String description = getString(R.string.foreground_channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel channel = new NotificationChannel("FOREGROUND_SERVICE_CHANNEL", name, importance);
             channel.setDescription(description);
 
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
+
+            CharSequence name2 = getString(R.string.foreground_channel_name);
+            String description2 = getString(R.string.foreground_channel_description);
+            int importance2 = NotificationManager.IMPORTANCE_HIGH;
+
+            NotificationChannel channel2 = new NotificationChannel("QUESTION_NOTIFICATION_CHANNEL", name2, importance2);
+            channel2.setDescription(description2);
+
+            NotificationManager notificationManager2 = getSystemService(NotificationManager.class);
+            notificationManager2.createNotificationChannel(channel2);
+
+            CharSequence name3 = getString(R.string.foreground_channel_name);
+            String description3 = getString(R.string.foreground_channel_description);
+            int importance3 = NotificationManager.IMPORTANCE_LOW;
+
+            NotificationChannel channel3 = new NotificationChannel("ANSWER_NOTIFICATION_CHANNEL", name3, importance3);
+            channel3.setDescription(description3);
+
+            NotificationManager notificationManager3 = getSystemService(NotificationManager.class);
+            notificationManager3.createNotificationChannel(channel3);
         }
     }
 

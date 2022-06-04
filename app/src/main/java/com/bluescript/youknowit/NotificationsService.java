@@ -54,9 +54,10 @@ public class NotificationsService extends Service {
     public void createNewNotificationTask(String id, int interval, Context context) {
         Handler handler = new Handler();
         Runnable runnable;
+
         handler.postDelayed(runnable = new Runnable() {
             public void run() {
-                Toast.makeText(context, "This method is run every 5 seconds",
+                Toast.makeText(context, "This method is run every " + interval +" seconds",
                         Toast.LENGTH_SHORT).show();
                 handler.postDelayed(this,  interval * 1000);
             }
