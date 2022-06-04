@@ -14,6 +14,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.os.IBinder;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -24,11 +26,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import com.bluescript.youknowit.Question;
 import android.view.View;
 import android.view.Window;
 
+import com.bluescript.youknowit.utils.PathInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,7 +55,10 @@ public class MainActivity extends AppCompatActivity {
 
     //Function to read from JSON file
     static public QuestionSet readFromJSON(String fileName, Context context) {
+        fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+
         String JSONtext = readFile(fileName, context);
+        Log.e("NAME: ", JSONtext);
         QuestionSet questionSet = new QuestionSet(JSONtext);
         return questionSet;
     }
@@ -69,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         BufferedReader in = null;
 
         try {
-            in = new BufferedReader(new FileReader(new File(context.getFilesDir(), filename)));
+            in = new BufferedReader(new FileReader(new File(context.getFilesDir() + PathInfo.PATH_TO_SETS, filename)));
             while ((line = in.readLine()) != null) stringBuilder.append(line);
         } catch (IOException e ){
             Log.e("ERROR", e.toString());
@@ -81,24 +88,34 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Context context = getApplicationContext();
+        File folder = new File(context.getFilesDir().getAbsolutePath() + "/questionSets");
+        if(!folder.exists()){
+            folder.mkdir();
+        }
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         createNotificationChannel();
 
+        final LayoutInflater inflater = LayoutInflater.from(this);
         ViewGroup parent = findViewById(R.id.scroll_in_main);
-        Context context = getApplicationContext();
+
         String path = context.getFilesDir().toString();
         File dic = new File(path + PathInfo.PATH_TO_SETS);
-        Log.e("App path", path);
-        Log.e("Dictionary", String.valueOf(dic.isDirectory()));
-        Log.e("First file", dic.listFiles()[0].toString());
         File[] listOfFiles = dic.listFiles();
-        QuestionSet questionSet;
-        for (int i = 0; i < listOfFiles.length; i++) {
-            questionSet =  new QuestionSet();
-            inflater.inflate(R.layout.tile_set, parent);
 
+
+        if(listOfFiles.length > 0) {
+            for (int i = 0; i < listOfFiles.length; i++) {
+                QuestionSet questionSet = MainActivity.readFromJSON(listOfFiles[i].toString(), context);
+
+                inflater.inflate(R.layout.tile_set, parent);
+                TextView setName = findViewById(R.id.projectname);
+                setName.setText(questionSet.getSetName());
+            }
         }
 
 

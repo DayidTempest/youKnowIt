@@ -67,9 +67,9 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
                     QuestionSet set =  new QuestionSet(uuid, "asd", list);
 
                     File folder = new File(context.getFilesDir().getAbsolutePath() + "/questionSets");
-                    if(!folder.exists()){
-                        folder.mkdir();
-                    }
+//                    if(!folder.exists()){
+//                        folder.mkdir();
+//                    }
                     Log.e("tag", folder.getAbsolutePath().toString());
                     MainActivity.writeToJSON("questionSets/" + uuid.toString() + ".json", set, getApplicationContext());
                     set = MainActivity.readFromJSON("questionSets/" + uuid.toString() + ".json", getApplicationContext());
