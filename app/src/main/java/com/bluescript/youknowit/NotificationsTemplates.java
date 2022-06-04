@@ -42,7 +42,7 @@ public class NotificationsTemplates {
         Intent intent1 = new Intent(context, ManageUserReply.class);
         intent1.putExtra("Correct", correctAnswer);
         PendingIntent replyPendingIntent = PendingIntent.getBroadcast(context,
-                11, intent1, PendingIntent.FLAG_MUTABLE);
+                11, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Action action = new NotificationCompat.Action.Builder(R.drawable.ic_notifications_24,
                 context.getString(R.string.reply), replyPendingIntent)

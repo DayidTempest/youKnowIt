@@ -31,7 +31,8 @@ import java.util.UUID;
 public class CreateAndEditSetActivity extends AppCompatActivity {
     private ViewGroup parent;
     private Context context;
-
+    private boolean editIsOn = false;
+    private int editNotificationsInterval = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +45,13 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String editUuid = intent.getStringExtra("uuid");
         this.context = getApplicationContext();
+
+        TextInputLayout name = findViewById(R.id.projectname);
+        Switch notifiSwitch = findViewById(R.id.notificationSetSwitch);
+        EditText intervalText = findViewById(R.id.notificationSetInterval);
+
         UUID uuid;
-        if(editUuid.equals("")){
+        if(editUuid == null){
             uuid = UUID.randomUUID();
         }else{
             uuid = UUID.fromString(editUuid);
@@ -64,9 +70,14 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
 
                 parent.addView(v);
             }
-        }
 
-        TextInputLayout name = findViewById(R.id.projectname);
+            name.getEditText().setText(qs.getSetName());
+            notifiSwitch.setChecked(qs.isOn());
+            intervalText.setText(String.valueOf(qs.getTimeInterval()));
+
+            editIsOn = qs.isOn();
+            editNotificationsInterval = qs.getTimeInterval();
+        }
 
         MaterialToolbar materialToolbar = findViewById(R.id.topAppBar);
         materialToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
@@ -96,21 +107,34 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
 
                     }
 
+                    String intervalString = intervalText.getText().toString();
+                    int interval = 0;
+                    if(!intervalString.equals("")) {
+                        interval = Integer.parseInt(intervalText.getText().toString());
+                    }
+                    if(notifiSwitch.isChecked() && !editIsOn) {
+                        if(interval > 0)  {
+                            ManageNotifications.startNotificationTask(getApplicationContext(), "questionSets/" + uuid.toString() + ".json", interval);
+                        }
+                    } else if(notifiSwitch.isChecked() && editIsOn && interval > 0 && interval != editNotificationsInterval) {
+                        ManageNotifications.stopNotificationTask("questionSets/" + uuid.toString() + ".json");
+                        ManageNotifications.startNotificationTask(getApplicationContext(), "questionSets/" + uuid.toString() + ".json", interval);
+                    } else if(!notifiSwitch.isChecked() && editIsOn) {
+                        ManageNotifications.stopNotificationTask("questionSets/" + uuid.toString() + ".json");
+                    }
 
-                    QuestionSet set =  new QuestionSet(uuid, name.getEditText().getText().toString(), list);
+                    int intervalToSave;
+                    if(interval == 0) {
+                        intervalToSave = 20;
+                    }
+                    else {
+                        intervalToSave = interval;
+                    }
+
+                    QuestionSet set =  new QuestionSet(uuid, name.getEditText().getText().toString(), list, intervalToSave, notifiSwitch.isChecked());
                     File folder = new File(context.getFilesDir().getAbsolutePath() + "/questionSets");
                     if(list.size() != 0){
                         MainActivity.writeToJSON("questionSets/" + uuid.toString() + ".json", set, getApplicationContext());
-                    }
-
-                    Switch notifiSwitch = findViewById(R.id.notificationSetSwitch);
-                    EditText intervalText = findViewById(R.id.notificationSetInterval);
-                    if(notifiSwitch.isChecked()) {
-                        String intervalString = intervalText.getText().toString();
-                        if(!intervalString.equals(""))  {
-                            int interval = Integer.parseInt(intervalText.getText().toString());
-                            ManageNotifications.startNotificationTask(getApplicationContext(), "questionSets/" + uuid.toString() + ".json", interval);
-                        }
                     }
                 }
                 return false;
