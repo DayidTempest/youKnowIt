@@ -18,4 +18,6 @@
     <string name="question_notifi_description">Notification with question</string>
     <string name="notifications">Notifications</string>
     <string name="enter_interval">Enter interval</string>
+    <string name="edit_tile">Edit</string>
+    <string name="settings_tile">Settings</string>
 </resources>

@@ -13,7 +13,6 @@ import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.widget.Button;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -33,70 +32,87 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    int testCount = 1;
-    int testCountDelete = 1;
+    public static Intent serviceIntent = null;
+    NotificationsService notificationsService;
 
     //Helper function for writeToJSON
-    private void writeToFile(String text, String fileName){
-        Context context = getApplicationContext();
+    static public void writeToFile(String text, String fileName, Context context){
+
         try {
             FileWriter out = new FileWriter(new File(context.getFilesDir(), fileName));
             out.write(text);
             out.close();
         } catch(IOException e ){
-            System.out.println(e);
+            Log.e("ERROR", e.toString());
         }
 
     }
 
     //Function to read from JSON file
-    private Question readFromJSON(String fileName) {
-        String JSONtext = readFile(fileName);
-        try{
-            Question question = new Question(JSONtext);
-            return question;
-        } catch (JSONException e){
-            System.out.println(e);
-        }
+    static public QuestionSet readFromJSON(String fileName, Context context) {
+        fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
 
-        return new Question("none", "none");
+        String JSONtext = readFile(fileName, context);
+        Log.e("NAME: ", JSONtext);
+        QuestionSet questionSet = new QuestionSet(JSONtext);
+        return questionSet;
     }
 
-    protected void writeToJSON(String fileName, Question data) {
-        try{
-            JSONObject JSONData = data.toJSON();
-            writeToFile(JSONData.toString(), fileName);
-        } catch (JSONException e){
-            System.out.println(e);
-        }
-        Question lostQuestion = new Question("none", "none");
-        writeToFile(lostQuestion.toString(), fileName);
+    static public void writeToJSON(String fileName, QuestionSet data, Context context) {
+        JSONObject JSONData = data.toJSON();
+        MainActivity.writeToFile(JSONData.toString(), fileName, context);
     }
 
     //Helper function for readFromJson
-    private String readFile(String filename){
-        Context context = getApplicationContext();
+    static public String readFile(String filename, Context context){
+
         StringBuilder stringBuilder = new StringBuilder();
         String line;
         BufferedReader in = null;
 
         try {
-            in = new BufferedReader(new FileReader(new File(context.getFilesDir(), filename)));
+            in = new BufferedReader(new FileReader(new File(context.getFilesDir() + PathInfo.PATH_TO_SETS, filename)));
             while ((line = in.readLine()) != null) stringBuilder.append(line);
         } catch (IOException e ){
-            System.out.println(e);
+            Log.e("ERROR", e.toString());
         }
-        return stringBuilder.toString();
+        String output = stringBuilder.toString();
+        return output;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Context context = getApplicationContext();
+        File folder = new File(context.getFilesDir().getAbsolutePath() + "/questionSets");
+        if(!folder.exists()){
+            folder.mkdir();
+        }
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         createNotificationChannel();
+
+        final LayoutInflater inflater = LayoutInflater.from(this);
+        ViewGroup parent = findViewById(R.id.scroll_in_main);
+
+        String path = context.getFilesDir().toString();
+        File dic = new File(path + PathInfo.PATH_TO_SETS);
+        File[] listOfFiles = dic.listFiles();
+
+
+        if(listOfFiles.length > 0) {
+            for (int i = 0; i < listOfFiles.length; i++) {
+                QuestionSet questionSet = MainActivity.readFromJSON(listOfFiles[i].toString(), context);
+
+                inflater.inflate(R.layout.tile_set, parent);
+                TextView setName = findViewById(R.id.projectname);
+                setName.setText(questionSet.getSetName());
+            }
+        }
+
 
         FloatingActionButton fab = findViewById(R.id.addingActivities);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -105,9 +121,33 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(v.getContext(), CreateAndEditSetActivity.class));
             }
         });
+
+        createAndBindService();
+    }
+
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            NotificationsService.NotificationsServiceBinder binder = (NotificationsService.NotificationsServiceBinder) service;
+            notificationsService = binder.getService();
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+        }
+    };
+
+    private void createAndBindService() {
+        serviceIntent = new Intent(this, NotificationsService.class);
+        startService(serviceIntent);
+        bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
     }
 
     private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.foreground_channel_name);
             String description = getString(R.string.foreground_channel_description);
