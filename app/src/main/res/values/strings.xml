@@ -16,4 +16,6 @@
     <string name="reply">Reply</string>
     <string name="question_notifi_name">Notification with question</string>
     <string name="question_notifi_description">Notification with question</string>
+    <string name="notifications">Notifications</string>
+    <string name="enter_interval">Enter interval</string>
 </resources>
