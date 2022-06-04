@@ -117,10 +117,10 @@ public class MainActivity extends AppCompatActivity {
         final LayoutInflater inflater = LayoutInflater.from(this);
         ViewGroup parent = findViewById(R.id.scroll_in_main);
 
-
+        parent.removeAllViews();
         if(listOfFiles.length > 0) {
 
-            parent.removeAllViews();
+
             for (int i = 0; i < listOfFiles.length; i++) {
                 QuestionSet questionSet = MainActivity.readFromJSON(listOfFiles[i].toString(), context);
 

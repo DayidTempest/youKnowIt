@@ -46,7 +46,7 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
         String editUuid = intent.getStringExtra("uuid");
         this.context = getApplicationContext();
 
-        if(editUuid.equals("")){
+        if(editUuid == null){
             uuid = UUID.randomUUID();
         }else{
             uuid = UUID.fromString(editUuid);
@@ -81,6 +81,7 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
                     File file = new File(context.getFilesDir().getAbsolutePath().toString() + "/questionSets/" + uuid.toString() + ".json");
                     Log.e("tag", file.getAbsolutePath().toString());
                     boolean deleted = file.delete();
+                    finish();
 
                 }else if(itemID == R.id.action_save_set){
 
@@ -121,6 +122,7 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
                         }
                     }
                 }
+                finish();
                 return false;
             }
         });
