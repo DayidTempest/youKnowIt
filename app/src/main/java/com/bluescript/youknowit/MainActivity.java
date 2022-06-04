@@ -121,9 +121,11 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < listOfFiles.length; i++) {
                 QuestionSet questionSet = MainActivity.readFromJSON(listOfFiles[i].toString(), context);
 
-                inflater.inflate(R.layout.tile_set, parent);
-                TextView setName = findViewById(R.id.projectname);
+
+                View singleTileSet = inflater.inflate(R.layout.tile_set, parent, false);
+                TextView setName = singleTileSet.findViewById(R.id.projectname);
                 setName.setText(questionSet.getSetName());
+                parent.addView(singleTileSet);
             }
         }
 
