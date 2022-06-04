@@ -31,6 +31,7 @@ import java.util.UUID;
 public class CreateAndEditSetActivity extends AppCompatActivity {
     private ViewGroup parent;
     private Context context;
+    UUID uuid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String editUuid = intent.getStringExtra("uuid");
         this.context = getApplicationContext();
-        UUID uuid;
+
         if(editUuid.equals("")){
             uuid = UUID.randomUUID();
         }else{
@@ -64,7 +65,14 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int itemID = item.getItemId();
-                if(itemID == R.id.action_save_set){
+
+                if(itemID == R.id.action_delete_set){
+
+                    File file = new File(context.getFilesDir().getAbsolutePath().toString() + "/questionSets/" + uuid.toString() + ".json");
+                    Log.e("tag", file.getAbsolutePath().toString());
+                    boolean deleted = file.delete();
+
+                }else if(itemID == R.id.action_save_set){
 
                     LinearLayout scroll = findViewById(R.id.AddRepeatsLinear);
                     int childCount = scroll.getChildCount();

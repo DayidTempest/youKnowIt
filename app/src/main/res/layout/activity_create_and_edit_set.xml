@@ -18,7 +18,6 @@
             android:layout_height="?attr/actionBarSize"
             app:title="@string/add_or_edit_set"
             app:menu="@menu/add_edit_set_menu"
-            app:navigationIcon="@drawable/ic_menu_24"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:background="#00ADB5"
             />
