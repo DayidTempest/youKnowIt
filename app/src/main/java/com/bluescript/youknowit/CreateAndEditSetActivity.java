@@ -19,6 +19,7 @@ import android.widget.PopupMenu;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
@@ -37,6 +38,7 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_and_edit_set);
         parent = findViewById(R.id.AddRepeatsLinear);
         this.context = getApplicationContext();
+        TextInputLayout name = findViewById(R.id.projectname);
         MaterialToolbar materialToolbar = findViewById(R.id.topAppBar);
         materialToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
 
@@ -64,7 +66,7 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
 
 
                     }
-                    QuestionSet set =  new QuestionSet(uuid, "asd", list);
+                    QuestionSet set =  new QuestionSet(uuid, name.getEditText().getText().toString(), list);
 
                     File folder = new File(context.getFilesDir().getAbsolutePath() + "/questionSets");
 //                    if(!folder.exists()){

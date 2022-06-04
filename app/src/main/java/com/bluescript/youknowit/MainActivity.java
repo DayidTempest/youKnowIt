@@ -13,6 +13,9 @@ import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -28,6 +31,7 @@ import com.bluescript.youknowit.Question;
 import android.view.View;
 import android.view.Window;
 
+import com.bluescript.youknowit.utils.PathInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -107,9 +111,11 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < listOfFiles.length; i++) {
                 QuestionSet questionSet = MainActivity.readFromJSON(listOfFiles[i].toString(), context);
 
-                inflater.inflate(R.layout.tile_set, parent);
-                TextView setName = findViewById(R.id.projectname);
+
+                View singleTileSet = inflater.inflate(R.layout.tile_set, parent, false);
+                TextView setName = singleTileSet.findViewById(R.id.projectname);
                 setName.setText(questionSet.getSetName());
+                parent.addView(singleTileSet);
             }
         }
 
