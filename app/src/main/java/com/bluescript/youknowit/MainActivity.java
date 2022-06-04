@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
     NotificationsService notificationsService;
 
     //Helper function for writeToJSON
-    private void writeToFile(String text, String fileName){
-        Context context = getApplicationContext();
+    static public void writeToFile(String text, String fileName, Context context){
+
         try {
             FileWriter out = new FileWriter(new File(context.getFilesDir(), fileName));
             out.write(text);
@@ -50,20 +50,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Function to read from JSON file
-    private QuestionSet readFromJSON(String fileName) {
-        String JSONtext = readFile(fileName);
+    static public QuestionSet readFromJSON(String fileName, Context context) {
+        String JSONtext = readFile(fileName, context);
         QuestionSet questionSet = new QuestionSet(JSONtext);
         return questionSet;
     }
 
-    protected void writeToJSON(String fileName, QuestionSet data) {
+    static public void writeToJSON(String fileName, QuestionSet data, Context context) {
         JSONObject JSONData = data.toJSON();
-        writeToFile(JSONData.toString(), fileName);
+        MainActivity.writeToFile(JSONData.toString(), fileName, context);
     }
 
     //Helper function for readFromJson
-    private String readFile(String filename){
-        Context context = getApplicationContext();
+    static public String readFile(String filename, Context context){
+
         StringBuilder stringBuilder = new StringBuilder();
         String line;
         BufferedReader in = null;
