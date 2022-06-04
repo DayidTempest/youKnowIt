@@ -86,6 +86,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         createNotificationChannel();
 
+        ViewGroup parent = findViewById(R.id.scroll_in_main);
+        Context context = getApplicationContext();
+        String path = context.getFilesDir().toString();
+        File dic = new File(path + PathInfo.PATH_TO_SETS);
+        Log.e("App path", path);
+        Log.e("Dictionary", String.valueOf(dic.isDirectory()));
+        Log.e("First file", dic.listFiles()[0].toString());
+        File[] listOfFiles = dic.listFiles();
+        QuestionSet questionSet;
+        for (int i = 0; i < listOfFiles.length; i++) {
+            questionSet =  new QuestionSet();
+            inflater.inflate(R.layout.tile_set, parent);
+
+        }
+
+
         FloatingActionButton fab = findViewById(R.id.addingActivities);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +147,4 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
-
 }

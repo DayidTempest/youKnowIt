@@ -15,6 +15,12 @@ public class QuestionSet {
     private ArrayList<Question> questions;
 
 
+    public  QuestionSet(){
+        this.id = UUID.randomUUID();
+        this.questions = new ArrayList<Question>(0);
+        this.setName = "";
+    }
+
     public QuestionSet(UUID id, String setName, ArrayList<Question> questions){
         this.id = id;
         this.questions = questions;
