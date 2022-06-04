@@ -72,10 +72,12 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
 //                    if(!folder.exists()){
 //                        folder.mkdir();
 //                    }
+
                     Log.e("tag", folder.getAbsolutePath().toString());
                     MainActivity.writeToJSON("questionSets/" + uuid.toString() + ".json", set, getApplicationContext());
                     set = MainActivity.readFromJSON("questionSets/" + uuid.toString() + ".json", getApplicationContext());
                     Log.e("tag", set.getId().toString());
+
                 }
                 return false;
             }

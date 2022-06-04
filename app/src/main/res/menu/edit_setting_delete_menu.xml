@@ -10,11 +10,6 @@
         app:showAsAction="never"
         />
     <item
-        android:id="@+id/settings_tile"
-        android:title="@string/settings_tile"
-        app:showAsAction="never"
-        />
-    <item
         android:id="@+id/delete_tile"
         android:title="@string/delete"
         app:showAsAction="never"

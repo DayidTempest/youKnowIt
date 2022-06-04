@@ -118,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         if(listOfFiles.length > 0) {
+
+            parent.removeAllViews();
             for (int i = 0; i < listOfFiles.length; i++) {
                 QuestionSet questionSet = MainActivity.readFromJSON(listOfFiles[i].toString(), context);
 
@@ -125,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
                 View singleTileSet = inflater.inflate(R.layout.tile_set, parent, false);
                 TextView setName = singleTileSet.findViewById(R.id.projectname);
                 setName.setText(questionSet.getSetName());
+                setName = singleTileSet.findViewById(R.id.hidden_uuid);
+//                setName.setText(questionSet.getId().toString());
                 parent.addView(singleTileSet);
             }
         }
