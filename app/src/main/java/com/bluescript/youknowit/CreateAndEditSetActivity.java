@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -34,10 +35,21 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_create_and_edit_set);
         parent = findViewById(R.id.AddRepeatsLinear);
+
+        Intent intent = getIntent();
+        String editUuid = intent.getStringExtra("uuid");
+
+        if(editUuid.equals("")) {
+
+        } else {
+
+        }
+
         this.context = getApplicationContext();
         TextInputLayout name = findViewById(R.id.projectname);
         MaterialToolbar materialToolbar = findViewById(R.id.topAppBar);
@@ -47,7 +59,7 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 int itemID = item.getItemId();
                 if(itemID == R.id.action_save_set){
-                    UUID uuid = UUID.randomUUID();
+
                     LinearLayout scroll = findViewById(R.id.AddRepeatsLinear);
                     int childCount = scroll.getChildCount();
 
@@ -67,6 +79,8 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
 
 
                     }
+
+                    UUID uuid = UUID.randomUUID();
                     QuestionSet set =  new QuestionSet(uuid, name.getEditText().getText().toString(), list);
 
                     File folder = new File(context.getFilesDir().getAbsolutePath() + "/questionSets");

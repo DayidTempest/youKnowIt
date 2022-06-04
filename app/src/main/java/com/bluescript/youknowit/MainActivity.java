@@ -16,6 +16,8 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -99,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ManageNotifications.createAndBindService(this);
+
     }
 
     protected void onResume(){
@@ -123,10 +126,24 @@ public class MainActivity extends AppCompatActivity {
 
 
                 View singleTileSet = inflater.inflate(R.layout.tile_set, parent, false);
+                ImageButton dots = singleTileSet.findViewById(R.id.imageButton);
+                dots.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RelativeLayout parent = (RelativeLayout) v.getParent();
+                        TextView uuidView = parent.findViewById(R.id.hidden_uuid);
+                        String uuid = uuidView.getText().toString();
+
+                        Intent intent = new Intent(getApplicationContext(), CreateAndEditSetActivity.class);
+                        intent.putExtra("uuid", uuid);
+                        startActivity(intent);
+
+                    }
+                });
                 TextView setName = singleTileSet.findViewById(R.id.projectname);
                 setName.setText(questionSet.getSetName());
                 setName = singleTileSet.findViewById(R.id.hidden_uuid);
-//                setName.setText(questionSet.getId().toString());
+                setName.setText(questionSet.getId().toString());
                 parent.addView(singleTileSet);
             }
         }
