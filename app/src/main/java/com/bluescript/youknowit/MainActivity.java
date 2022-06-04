@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
 
         String JSONtext = readFile(fileName, context);
-        Log.e("NAME: ", JSONtext);
         QuestionSet questionSet = new QuestionSet(JSONtext);
         return questionSet;
     }
