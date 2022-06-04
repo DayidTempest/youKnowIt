@@ -85,7 +85,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.6"
                         android:hint="@string/enter_interval"
-                        android:id="@+id/notificationSetInterval"/>
+                        android:id="@+id/notificationSetInterval"
+                        android:inputType="numberDecimal"/>
                 </LinearLayout>
 
             </RelativeLayout>
