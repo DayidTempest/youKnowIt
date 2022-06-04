@@ -44,12 +44,6 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String editUuid = intent.getStringExtra("uuid");
 
-        if(editUuid.equals("")) {
-
-        } else {
-
-        }
-
         this.context = getApplicationContext();
         TextInputLayout name = findViewById(R.id.projectname);
         MaterialToolbar materialToolbar = findViewById(R.id.topAppBar);
@@ -79,8 +73,13 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
 
 
                     }
+                    UUID uuid;
+                    if(editUuid.equals("")){
+                         uuid = UUID.randomUUID();
+                    }else{
+                         uuid = UUID.fromString(editUuid);
+                    }
 
-                    UUID uuid = UUID.randomUUID();
                     QuestionSet set =  new QuestionSet(uuid, name.getEditText().getText().toString(), list);
 
                     File folder = new File(context.getFilesDir().getAbsolutePath() + "/questionSets");
