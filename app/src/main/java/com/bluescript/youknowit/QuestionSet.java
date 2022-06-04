@@ -16,6 +16,14 @@ public class QuestionSet {
     private boolean on;
     private int timeInterval;
 
+    public void removeQuestionByIndex(int index){
+        this.questions.remove(index);
+    }
+
+    public void appendQuestion(Question question){
+        this.questions.add(question);
+    }
+
 
     public  QuestionSet(){
         this.id = UUID.randomUUID();
