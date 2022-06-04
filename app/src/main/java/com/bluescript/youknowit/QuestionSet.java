@@ -13,24 +13,47 @@ public class QuestionSet {
     private String setName;
     private UUID id;
     private ArrayList<Question> questions;
+    private boolean on;
+    private int timeInterval;
 
 
     public  QuestionSet(){
         this.id = UUID.randomUUID();
         this.questions = new ArrayList<Question>(0);
         this.setName = "";
+        this.timeInterval = 20;
+        this.on = false;
+    }
+
+    public QuestionSet(UUID id, String setName, ArrayList<Question> questions, int timeInterval, boolean on){
+        this.id = id;
+        this.questions = questions;
+        this.setName = setName;
+        this.timeInterval = timeInterval;
+        this.on = on;
+    }
+    public QuestionSet(UUID id, String setName, ArrayList<Question> questions, int timeInterval){
+        this.id = id;
+        this.questions = questions;
+        this.setName = setName;
+        this.timeInterval = timeInterval;
+        this.on = true;
     }
 
     public QuestionSet(UUID id, String setName, ArrayList<Question> questions){
         this.id = id;
         this.questions = questions;
         this.setName = setName;
+        this.timeInterval = 20;
+        this.on = false;
     }
 
     public QuestionSet(String setName, ArrayList<Question> questions) {
         this.id = UUID.randomUUID();
         this.questions = questions;
         this.setName = setName;
+        this.on = false;
+        this.timeInterval = 20;
     }
 
     public QuestionSet(String JSONString){
@@ -46,6 +69,8 @@ public class QuestionSet {
                 newQuestions.add(new Question(forCreation));
             }
             this.questions = newQuestions;
+            this.on = json.getBoolean("on");
+            this.timeInterval = json.getInt("timeInterval");
 
 
         } catch (JSONException e){
@@ -53,9 +78,27 @@ public class QuestionSet {
             this.setName = "none";
             this.id = null;
             this.questions = new ArrayList<Question>(0);
+            this.on = false;
+            this.timeInterval = 20;
 
         }
 
+    }
+
+    public boolean isOn() {
+        return on;
+    }
+
+    public void setOn(boolean on) {
+        this.on = on;
+    }
+
+    public int getTimeInterval() {
+        return timeInterval;
+    }
+
+    public void setTimeInterval(int timeInterval) {
+        this.timeInterval = timeInterval;
     }
 
     public String getSetName() {
@@ -88,6 +131,8 @@ public class QuestionSet {
                 questions.put(question.toJSON());
             }
             json.put("questions",questions);
+            json.put("timeInterval", this.timeInterval);
+            json.put("on", this.on);
 
         } catch (JSONException e) {
             e.printStackTrace();

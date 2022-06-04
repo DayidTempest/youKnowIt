@@ -13,6 +13,9 @@ import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -28,6 +31,7 @@ import com.bluescript.youknowit.Question;
 import android.view.View;
 import android.view.Window;
 
+import com.bluescript.youknowit.utils.PathInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
 
         String JSONtext = readFile(fileName, context);
-        Log.e("NAME: ", JSONtext);
         QuestionSet questionSet = new QuestionSet(JSONtext);
         return questionSet;
     }
