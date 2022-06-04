@@ -33,6 +33,8 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
     private Context context;
     private boolean editIsOn = false;
     private int editNotificationsInterval = 0;
+    UUID uuid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +87,15 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 int itemID = item.getItemId();
-                if(itemID == R.id.action_save_set){
+
+                if(itemID == R.id.action_delete_set){
+
+                    File file = new File(context.getFilesDir().getAbsolutePath().toString() + "/questionSets/" + uuid.toString() + ".json");
+                    Log.e("tag", file.getAbsolutePath().toString());
+                    boolean deleted = file.delete();
+                    finish();
+
+                }else if(itemID == R.id.action_save_set){
 
                     LinearLayout scroll = findViewById(R.id.AddRepeatsLinear);
                     int childCount = scroll.getChildCount();
@@ -137,6 +147,7 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
                         MainActivity.writeToJSON("questionSets/" + uuid.toString() + ".json", set, getApplicationContext());
                     }
                 }
+                finish();
                 return false;
             }
         });
