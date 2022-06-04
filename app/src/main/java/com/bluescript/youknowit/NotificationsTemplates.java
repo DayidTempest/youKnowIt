@@ -10,12 +10,17 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.RemoteInput;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class NotificationsTemplates {
     static void QuestionNotificationTemplate(Context context, String id) {
         QuestionSet set = MainActivity.readFromJSON(id, context);
         ArrayList<Question> questions = set.getQuestions();
-        Question singleQuestion = questions.get(0);
+
+        Random rand = new Random();
+        int r = rand.nextInt(questions.size());
+
+        Question singleQuestion = questions.get(r);
         String question = singleQuestion.getQuestion();
         String correctAnswer = singleQuestion.getAnswer();
         String setName = set.getSetName();

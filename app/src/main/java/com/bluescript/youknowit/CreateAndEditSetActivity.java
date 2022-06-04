@@ -95,9 +95,12 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
 
                     Switch notifiSwitch = findViewById(R.id.notificationSetSwitch);
                     EditText intervalText = findViewById(R.id.notificationSetInterval);
-                    int interval = Integer.parseInt(intervalText.getText().toString());
-                    if(notifiSwitch.isEnabled()) {
-                        ManageNotifications.startNotificationTask(getApplicationContext(), "questionSets/" + uuid.toString() + ".json", interval);
+                    if(notifiSwitch.isChecked()) {
+                        String intervalString = intervalText.getText().toString();
+                        if(!intervalString.equals(""))  {
+                            int interval = Integer.parseInt(intervalText.getText().toString());
+                            ManageNotifications.startNotificationTask(getApplicationContext(), "questionSets/" + uuid.toString() + ".json", interval);
+                        }
                     }
                 }
                 return false;
