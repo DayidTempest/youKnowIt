@@ -43,9 +43,21 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String editUuid = intent.getStringExtra("uuid");
-
         this.context = getApplicationContext();
+        UUID uuid;
+        if(editUuid.equals("")){
+            uuid = UUID.randomUUID();
+        }else{
+            uuid = UUID.fromString(editUuid);
+            QuestionSet qs = MainActivity.readFromJSON("questionSets/" + uuid.toString() + ".json", context);
+            ArrayList list = qs.getQuestions();
+            for(int i = 0;  i < list.size(); i++){
+
+            }
+        }
+
         TextInputLayout name = findViewById(R.id.projectname);
+
         MaterialToolbar materialToolbar = findViewById(R.id.topAppBar);
         materialToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener(){
 
@@ -73,23 +85,13 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
 
 
                     }
-                    UUID uuid;
-                    if(editUuid.equals("")){
-                         uuid = UUID.randomUUID();
-                    }else{
-                         uuid = UUID.fromString(editUuid);
-                    }
+
 
                     QuestionSet set =  new QuestionSet(uuid, name.getEditText().getText().toString(), list);
-
                     File folder = new File(context.getFilesDir().getAbsolutePath() + "/questionSets");
-//                    if(!folder.exists()){
-//                        folder.mkdir();
-//                    }
-                    Log.e("tag", folder.getAbsolutePath().toString());
-                    MainActivity.writeToJSON("questionSets/" + uuid.toString() + ".json", set, getApplicationContext());
-                    set = MainActivity.readFromJSON("questionSets/" + uuid.toString() + ".json", getApplicationContext());
-                    Log.e("tag", set.getId().toString());
+                    if(list.size() != 0){
+                        MainActivity.writeToJSON("questionSets/" + uuid.toString() + ".json", set, getApplicationContext());
+                    }
 
                     Switch notifiSwitch = findViewById(R.id.notificationSetSwitch);
                     EditText intervalText = findViewById(R.id.notificationSetInterval);
