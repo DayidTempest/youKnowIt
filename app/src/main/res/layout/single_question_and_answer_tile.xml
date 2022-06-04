@@ -6,7 +6,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="32dp"
-        android:background="#0E2140"
+        android:background="@drawable/background"
         android:orientation="vertical"
         android:gravity="center"
         >
@@ -14,7 +14,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:gravity="center"
+        >
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/question_place"
@@ -24,12 +25,15 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            android:background="#AAA"
-            android:hint="@string/question_hint">
+            android:hint="@string/question_hint"
+            android:background="@drawable/background"
+            android:backgroundTint="#AAA"
+>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -39,12 +43,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:background="#AAA"
-            android:hint="@string/answer_hint">
+            android:background="@drawable/background"
+            android:backgroundTint="#AAA"
+            android:hint="@string/answer_hint"
+            android:inputType="textCapSentences">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences" />
 
         </com.google.android.material.textfield.TextInputLayout>
     </RelativeLayout>

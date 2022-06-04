@@ -9,15 +9,29 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.RemoteInput;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class NotificationsTemplates {
-    static void QuestionNotificationTemplate(Context context) {
+    static void QuestionNotificationTemplate(Context context, String id) {
+        QuestionSet set = MainActivity.readFromJSON(id, context);
+        ArrayList<Question> questions = set.getQuestions();
+
+        Random rand = new Random();
+        int r = rand.nextInt(questions.size());
+
+        Question singleQuestion = questions.get(r);
+        String question = singleQuestion.getQuestion();
+        String correctAnswer = singleQuestion.getAnswer();
+        String setName = set.getSetName();
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "QUESTION_NOTIFICATION_CHANNEL");
         mBuilder
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setSmallIcon(R.drawable.ic_notifications_24)
-                .setContentTitle("Testowe powiadomienie")
-                .setContentText("Testowa treść")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Testowa treść"))
+                .setContentTitle(setName)
+                .setContentText(question)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(question))
                 .setPriority(NotificationCompat.PRIORITY_MAX);
 
         String replyLabel = context.getString(R.string.reply);
@@ -26,9 +40,9 @@ public class NotificationsTemplates {
                 .build();
 
         Intent intent1 = new Intent(context, ManageUserReply.class);
-        intent1.putExtra("Correct", "test");
+        intent1.putExtra("Correct", correctAnswer);
         PendingIntent replyPendingIntent = PendingIntent.getBroadcast(context,
-                11, intent1, PendingIntent.FLAG_MUTABLE);
+                11, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Action action = new NotificationCompat.Action.Builder(R.drawable.ic_notifications_24,
                 context.getString(R.string.reply), replyPendingIntent)

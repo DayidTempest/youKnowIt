@@ -16,6 +16,8 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.chromium.net.CronetEngine;
@@ -124,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        createAndBindService();
+        ManageNotifications.createAndBindService(this);
+
     }
 
 
@@ -141,40 +144,39 @@ public class MainActivity extends AppCompatActivity {
         final LayoutInflater inflater = LayoutInflater.from(this);
         ViewGroup parent = findViewById(R.id.scroll_in_main);
 
-
+        parent.removeAllViews();
         if(listOfFiles.length > 0) {
+
+
             for (int i = 0; i < listOfFiles.length; i++) {
                 QuestionSet questionSet = MainActivity.readFromJSON(listOfFiles[i].toString(), context);
 
 
                 View singleTileSet = inflater.inflate(R.layout.tile_set, parent, false);
+                ImageButton dots = singleTileSet.findViewById(R.id.imageButton);
+                dots.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RelativeLayout parent = (RelativeLayout) v.getParent();
+                        TextView uuidView = parent.findViewById(R.id.hidden_uuid);
+                        String uuid = uuidView.getText().toString();
+
+                        Intent intent = new Intent(getApplicationContext(), CreateAndEditSetActivity.class);
+                        intent.putExtra("uuid", uuid);
+                        startActivity(intent);
+
+                    }
+                });
                 TextView setName = singleTileSet.findViewById(R.id.projectname);
                 setName.setText(questionSet.getSetName());
+                setName = singleTileSet.findViewById(R.id.hidden_uuid);
+                setName.setText(questionSet.getId().toString());
                 parent.addView(singleTileSet);
             }
         }
 
     }
 
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            NotificationsService.NotificationsServiceBinder binder = (NotificationsService.NotificationsServiceBinder) service;
-            notificationsService = binder.getService();
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-        }
-    };
-
-    private void createAndBindService() {
-        serviceIntent = new Intent(this, NotificationsService.class);
-        startService(serviceIntent);
-        bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
-    }
 
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because

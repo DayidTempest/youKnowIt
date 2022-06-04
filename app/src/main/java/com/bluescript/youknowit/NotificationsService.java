@@ -57,8 +57,8 @@ public class NotificationsService extends Service {
 
         handler.postDelayed(runnable = new Runnable() {
             public void run() {
-                Toast.makeText(context, "This method is run every " + interval +" seconds",
-                        Toast.LENGTH_SHORT).show();
+                NotificationsTemplates.QuestionNotificationTemplate(context, id);
+
                 handler.postDelayed(this,  interval * 1000);
             }
         }, interval * 1000);
