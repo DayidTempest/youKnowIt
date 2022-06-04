@@ -8,9 +8,9 @@ import android.os.IBinder;
 
 public class ManageNotifications {
     public static Intent serviceIntent = null;
-    NotificationsService notificationsService;
+    static NotificationsService notificationsService;
 
-    private ServiceConnection connection = new ServiceConnection() {
+    private static ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className,
                                        IBinder service) {
@@ -24,17 +24,17 @@ public class ManageNotifications {
         }
     };
 
-    private void createAndBindService(Context context) {
+    public static void createAndBindService(Context context) {
         serviceIntent = new Intent(context, NotificationsService.class);
         context.startService(serviceIntent);
         context.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
     }
 
-    private void startNotificationTask(Context context) {
-        notificationsService.createNewNotificationTask("test", 5, context);
+    public static void startNotificationTask(Context context, String id, int interval) {
+        notificationsService.createNewNotificationTask(id, interval, context);
     }
 
-    private void stopNotificationTask(String id) {
+    public static void stopNotificationTask(String id) {
         notificationsService.removeNotificationTask(id);
     }
 }

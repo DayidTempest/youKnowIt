@@ -13,11 +13,11 @@ public class Question {
         this.question = question;
     }
 
-    public String getListOfAnswers() {
+    public String getAnswer() {
         return answer;
     }
 
-    public void setListOfAnswers(String answer) {
+    public void seAnswer(String answer) {
         this.answer = answer;
     }
 

@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Switch;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -72,12 +73,17 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
 //                    if(!folder.exists()){
 //                        folder.mkdir();
 //                    }
-
                     Log.e("tag", folder.getAbsolutePath().toString());
                     MainActivity.writeToJSON("questionSets/" + uuid.toString() + ".json", set, getApplicationContext());
                     set = MainActivity.readFromJSON("questionSets/" + uuid.toString() + ".json", getApplicationContext());
                     Log.e("tag", set.getId().toString());
 
+                    Switch notifiSwitch = findViewById(R.id.notificationSetSwitch);
+                    EditText intervalText = findViewById(R.id.notificationSetInterval);
+                    int interval = Integer.parseInt(intervalText.getText().toString());
+                    if(notifiSwitch.isEnabled()) {
+                        ManageNotifications.startNotificationTask(getApplicationContext(), "questionSets/" + uuid.toString() + ".json", interval);
+                    }
                 }
                 return false;
             }

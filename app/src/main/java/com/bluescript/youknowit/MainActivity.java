@@ -36,8 +36,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static Intent serviceIntent = null;
-    NotificationsService notificationsService;
 
     //Helper function for writeToJSON
     static public void writeToFile(String text, String fileName, Context context){
@@ -100,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        createAndBindService();
+        ManageNotifications.createAndBindService(this);
     }
 
     protected void onResume(){
@@ -135,25 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            NotificationsService.NotificationsServiceBinder binder = (NotificationsService.NotificationsServiceBinder) service;
-            notificationsService = binder.getService();
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-        }
-    };
-
-    private void createAndBindService() {
-        serviceIntent = new Intent(this, NotificationsService.class);
-        startService(serviceIntent);
-        bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
-    }
 
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
