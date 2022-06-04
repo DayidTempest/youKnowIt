@@ -44,7 +44,17 @@
         </LinearLayout>
 
     </ScrollView>
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_baseline_add_24"
+        android:id="@+id/michal"
+        />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addingActivities"
         android:layout_width="56dp"

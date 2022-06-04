@@ -38,6 +38,7 @@ import android.view.View;
 import android.view.Window;
 
 import com.bluescript.youknowit.api.MyUrlRequestCallback;
+import com.bluescript.youknowit.api.RequestRunner;
 import com.bluescript.youknowit.utils.PathInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -92,26 +93,15 @@ public class MainActivity extends AppCompatActivity {
         return output;
     }
 
-    private void getSetsFromServer(Executor executor, CronetEngine cronetEngine){
-        UrlRequest.Builder requestBuilder = cronetEngine.newUrlRequestBuilder("http://192.168.0.100:3000/healthCheck", new MyUrlRequestCallback(), executor);
-        UrlRequest request = requestBuilder.build();
-        request.start();
-    }
 
-    private void postSetToServer(String uuid){
-
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = getApplicationContext();
 
-        CronetEngine.Builder myBuilder = new CronetEngine.Builder(context);
-        CronetEngine cronetEngine = myBuilder.build();
+        RequestRunner.sendRequest(context, "GET", "");
 
-        Executor executor = Executors.newSingleThreadExecutor();
 
-        getSetsFromServer(executor, cronetEngine);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
@@ -122,7 +112,14 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(v.getContext(), CreateAndEditSetActivity.class));
+                int itemID = v.getId();
+                if(itemID == R.id.michal){
+//                    todo
+//                    start activity
+                }else{
+                    startActivity(new Intent(v.getContext(), CreateAndEditSetActivity.class));
+                }
+
             }
         });
 

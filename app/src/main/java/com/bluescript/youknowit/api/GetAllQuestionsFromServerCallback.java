@@ -8,6 +8,8 @@ import org.chromium.net.UrlResponseInfo;
 
 import java.io.File;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+
 import android.util.Log;
 
 import com.bluescript.youknowit.MainActivity;
@@ -18,7 +20,11 @@ import org.chromium.net.UrlResponseInfo;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 public class GetAllQuestionsFromServerCallback extends UrlRequest.Callback{
+    public Charset charset = Charset.forName("UTF-8");
+
+    public JSONArray listOfQuestionSets;
 
     @Override
     public void onRedirectReceived(UrlRequest request, UrlResponseInfo info, String newLocationUrl) throws Exception {
@@ -44,7 +50,10 @@ public class GetAllQuestionsFromServerCallback extends UrlRequest.Callback{
         Log.i("asdf", "onReadCompleted");
 //        File file = new File(path);
 //        file.delete();
-        request.read(byteBuffer);
+        String newContent = charset.decode(byteBuffer).toString();
+        JSONArray jsonArray = new JSONArray(newContent);
+
+
     }
 
     @Override
