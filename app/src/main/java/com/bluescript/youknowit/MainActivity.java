@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.chromium.net.CronetEngine;
+import org.chromium.net.UrlRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,15 +28,20 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import com.bluescript.youknowit.Question;
 import android.view.View;
 import android.view.Window;
 
+import com.bluescript.youknowit.api.MyUrlRequestCallback;
 import com.bluescript.youknowit.utils.PathInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
+
+    public Context context;
 
     public static Intent serviceIntent = null;
     NotificationsService notificationsService;
@@ -83,9 +90,26 @@ public class MainActivity extends AppCompatActivity {
         return output;
     }
 
+    private void getSetsFromServer(Executor executor, CronetEngine cronetEngine){
+        UrlRequest.Builder requestBuilder = cronetEngine.newUrlRequestBuilder("http://192.168.0.100:3000/healthCheck", new MyUrlRequestCallback(), executor);
+        UrlRequest request = requestBuilder.build();
+        request.start();
+    }
+
+    private void postSetToServer(String uuid){
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.context = getApplicationContext();
+
+        CronetEngine.Builder myBuilder = new CronetEngine.Builder(context);
+        CronetEngine cronetEngine = myBuilder.build();
+
+        Executor executor = Executors.newSingleThreadExecutor();
+
+        getSetsFromServer(executor, cronetEngine);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
@@ -103,9 +127,10 @@ public class MainActivity extends AppCompatActivity {
         createAndBindService();
     }
 
+
     protected void onResume(){
         super.onResume();
-        Context context = getApplicationContext();
+
         File folder = new File(context.getFilesDir().getAbsolutePath() + "/questionSets");
         if(!folder.exists()){
             folder.mkdir();
