@@ -50,9 +50,19 @@ public class CreateAndEditSetActivity extends AppCompatActivity {
         }else{
             uuid = UUID.fromString(editUuid);
             QuestionSet qs = MainActivity.readFromJSON("questionSets/" + uuid.toString() + ".json", context);
-            ArrayList list = qs.getQuestions();
+            ArrayList<Question> list = qs.getQuestions();
+            final LayoutInflater inflater = LayoutInflater.from(this);
+            ViewGroup parent = findViewById(R.id.AddRepeatsLinear);
             for(int i = 0;  i < list.size(); i++){
+                View v = inflater.inflate(R.layout.single_question_and_answer_tile, parent, false);
+                TextInputLayout questionEdit = v.findViewById(R.id.question_place);
+                TextInputLayout answerEdit = v.findViewById(R.id.answer_place);
 
+                Question question = list.get(i);
+                questionEdit.getEditText().setText(question.getQuestion());
+                answerEdit.getEditText().setText(question.getAnswer());
+
+                parent.addView(v);
             }
         }
 

@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(getApplicationContext(), CreateAndEditSetActivity.class);
                         intent.putExtra("uuid", uuid);
-//                        todo
+                        startActivity(intent);
 
                     }
                 });
