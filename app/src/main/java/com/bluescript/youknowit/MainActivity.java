@@ -87,23 +87,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Context context = getApplicationContext();
-        File folder = new File(context.getFilesDir().getAbsolutePath() + "/questionSets");
-        if(!folder.exists()){
-            folder.mkdir();
-        }
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         createNotificationChannel();
 
-        final LayoutInflater inflater = LayoutInflater.from(this);
-        ViewGroup parent = findViewById(R.id.scroll_in_main);
+        FloatingActionButton fab = findViewById(R.id.addingActivities);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(v.getContext(), CreateAndEditSetActivity.class));
+            }
+        });
 
+        createAndBindService();
+    }
+
+    protected void onResume(){
+        super.onResume();
+        Context context = getApplicationContext();
+        File folder = new File(context.getFilesDir().getAbsolutePath() + "/questionSets");
+        if(!folder.exists()){
+            folder.mkdir();
+        }
         String path = context.getFilesDir().toString();
         File dic = new File(path + PathInfo.PATH_TO_SETS);
         File[] listOfFiles = dic.listFiles();
+        final LayoutInflater inflater = LayoutInflater.from(this);
+        ViewGroup parent = findViewById(R.id.scroll_in_main);
 
 
         if(listOfFiles.length > 0) {
@@ -116,16 +127,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
-        FloatingActionButton fab = findViewById(R.id.addingActivities);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(v.getContext(), CreateAndEditSetActivity.class));
-            }
-        });
-
-        createAndBindService();
     }
 
     private ServiceConnection connection = new ServiceConnection() {
